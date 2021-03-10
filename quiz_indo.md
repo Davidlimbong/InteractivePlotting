@@ -4,10 +4,10 @@ Kuis ini merupakan bagian dari proses penilaian *Algoritma Academy*. Selamat and
 
 ## Memeriksa Data set
 
-Kita akan menggunakan dataset video trending di Youtube yang disimpan di `youtube.csv`. Data tersebut terdiri dari seluruh video trending di Amerika Serikat dari November 2017 hingga Januari 2018 dengan total 2.986 observasi dan 9 variabel. Silakan gunakan glosarium berikut sebagai referensi:
+Kita akan menggunakan dataset video trending di YouTube yang disimpan di file `youtube.csv`. Data tersebut terdiri dari seluruh video trending di Amerika Serikat dari November 2017 hingga Januari 2018 dengan total 2986 observasi dan 9 variabel. Silakan gunakan glosarium berikut sebagai referensi:
  * `trending_date`: Tanggal video trending
  * `title`: Judul video
- * `channel_title`: Nama kanal (*channel*) Youtube
+ * `channel_title`: Nama saluran (*channel*) YouTube
  * `category_id`: Kategori video
  * `publish_time`: Tanggal video dipublikasikan
  * `views`: Jumlah penonton pada video
@@ -15,18 +15,19 @@ Kita akan menggunakan dataset video trending di Youtube yang disimpan di `youtub
  * `dislikes`: Jumlah penonton yang tidak menyukai video
  * `comment_count`: Jumlah komentar pada video
 
-Read the dataset into `youtube` object:
+Baca dataset tersebut dan simpan kedalam objek dengan nama `youtube`:
 
 ```{r}
 # Your code here
 ```
 
-Posisikan Anda bekerja sebagai konsultan analis tren untuk saluran Youtube. Anda mencoba untuk mendapatkan saluran Youtube dengan peringkat teratas pada kategori musik **music**. Metrik yang Anda gunakan untuk menilai setiap saluran adalah rasio antara suka (*likes*) dan penayangan (*views*).
+Anda bekerja sebagai konsultan analis tren untuk saluran/channel YouTube. Anda mencoba untuk mendapatkan channel YouTube dengan peringkat teratas pada kategori musik (**Music**). Ukuran yang Anda gunakan untuk menilai setiap channel adalah rasio antara *likes* dan *views* (*likes ratio*) dari channel tersebut.
 
-Ambil 10 saluran Youtube teratas berdasarkan rasio suka (*likes ratio*) tertinggi dengan melengkapi kode di bawah ini:
+Ambil 10 saluran YouTube teratas berdasarkan *likes ratio* tertinggi dengan melengkapi kode di bawah ini:
 
 ```{r}
- youtube %>% 
+library(dplyr)
+youtube %>% 
    ___(category_id == "Music") %>% 
    group_by(channel_title) %>% 
    ___(likes_ratio = mean(likes/views)) %>% 
@@ -36,7 +37,7 @@ Ambil 10 saluran Youtube teratas berdasarkan rasio suka (*likes ratio*) tertingg
 ___
 
 1. Fungsi `dplyr` mana yang sesuai untuk mengisi kode di atas?  
-  - [ ] filter, summarise,arrange
+  - [ ] filter, summarise, arrange
   - [ ] select, pivot, order
   - [ ] filter, mutate, order
   - [ ] select, summarise, arrange
@@ -44,28 +45,35 @@ ___
 
 ## Membangun Aplikasi Dashboard
 
-Berdasarkan saluran youtube yang telah Anda ekstrak, Anda berencana untuk membuat prototipe *dashboard* untuk klien Anda menggunakan flexdashboard. Anda membuat mockup dengan desain berikut:
+Berdasarkan channel YouTube yang telah Anda ekstrak, Anda berencana untuk membuat prototipe *dashboard* untuk klien Anda menggunakan flexdashboard. Anda membuat mockup dengan desain berikut:
+
 ![](assets/mockup.png)
 ___
-2. Untuk menghasilkan tata letak (*layout*) menggunakan *templates* flexdashboard, bagaimana seharusnya tata letak disusun?
+2. Untuk menghasilkan tata letak (*layout*) seperti di atas menggunakan *template* dari flexdashboard, bagaimana seharusnya tata letak disusun?
+  - [ ] orientation: rows ; 2 header pada bagian pertama, 1 header pada bagian kedua
+  - [ ] orientation: columns ; 2 header pada bagian pertama, 1 headers pada bagian kedua
+  - [ ] orientation: columns ; 1 header pada bagian pertama, 2 header pada bagian kedua
+  - [ ] orientation: rows ; 1 header pada bagian pertama, 2 header pada bagian kedua
+
+*Referensi Opsi Bahasa Inggris:*
   - [ ] orientation: rows ; 2 headers in first section, 1 headers in the second section
   - [ ] orientation: columns ; 2 headers in first section, 1 headers in the second section
   - [ ] orientation: columns ; 1 headers in first section, 2 headers in the second section
   - [ ] orientation: rows ; 1 headers in first section, 2 headers in the second section
 ___
 
-Sekarang perhatikan plot kanan atas. Plot menunjukkan rasio suka dan tidak suka antara video yang sedang tren pada kategori Musik. Misalnya Anda ingin menambahkan fitur interaktivitas yang menarik di mana pengguna dapat memilih kategori yang mereka inginkan dan plot akan berubah sesuai dengan kondisi tersebut.
+Sekarang perhatikan plot kanan atas. Plot menunjukkan *likes ratio* dan *dislikes ratio* dari video trending pada kategori Musik. Bila Anda ingin menambahkan fitur interaktif yang menarik dimana pengguna dapat memilih kategori yang mereka inginkan dan plot akan berubah sesuai dengan kategori tersebut.
 ___
-3. Manakah dari jenis masukan (*input type*) di bawah ini yang sesuai untuk jenis pilihan yang diberikan?
+3. Manakah dari jenis masukan (*input type*) di bawah ini yang sesuai untuk jenis pilihan di atas?
   - [ ] selectInput()
   - [ ] sliderInput()
   - [ ] numericInput()
   - [ ] passwordInput()
 ___
   
-Anda juga ingin memiliki plot kanan yang dapat menampilkan setiap judul video untuk analisis lebih lanjut. Karena Anda menyadari bahwa membuat geom_text bisa jadi terlalu penuh untuk plot, Anda berencana merender objek plot yang menampilkan setiap judul video ketika kursor diarahkan. 
+Masih di plot yang sama, Anda juga ingin memiliki plot yang dapat menampilkan setiap judul video untuk analisis lebih lanjut. Karena Anda menyadari bahwa menambahkan geom_text dapat membuat plot menjadi terlalu penuh (tidak rapih), Anda berencana untuk membuat object *plotly* yang menampilkan judul video dengan mengarahkan kursor pada bagian tertentu pada plot.
 ___
-4. Manakah dari kode berikut yang dipasangkan dengan benar antara render dan output untuk membuat plotly pada *dashboard*?
+4. Manakah dari kode berikut yang merupakan pasangan yang tepat antara fungsi render dan output untuk membuat plotly pada Shiny Dashboard?
   - [ ] output$plot1 <- renderPlot({}) ; plotlyOutput("plot1")
   - [ ] output$plotly1 <- renderPlotly({}) ; plotOutput("plotly1")
   - [ ] output$plot1 <- renderPlot({}) ; plotOutput("plot1")
